@@ -12,10 +12,10 @@
       #arraySize
       #arrContainer
       #array
-      constructor (arr) {
-        this.#array = Array.from(arr)
-        this.#arraySize = arr.length // 数组容器
-        this.length = arr.length // 对外暴露数组长度
+      constructor (len) {
+        this.#array = Array(len)
+        this.#arraySize = len // 数组容器
+        this.length = len // 对外暴露数组长度
       }
 
       get value () { // 获取数组值（不应直接获取实例后的返回值）
@@ -24,6 +24,10 @@
           arr[index] = this.#array[index]
         }
         return arr
+      }
+
+      set (idx, val) {
+        this.#array[idx] = val
       }
 
       insert (idx, val) {
@@ -36,7 +40,7 @@
           
         // }
         for (let index = this.length-1; index >= idx; index--) {
-          this.#array[index+1] = this.#array[index] // 从下标开始依次向右位移
+          this.#array[index+1] = this.#array[index] // 从下标开始依次向右位移 !考虑超出初始数组长度时如何处理
         }
         this.#array[idx] = val
         this.length++
@@ -57,8 +61,11 @@
 
     }
 
-    const arrInstance = new MyArray([1,2,3,4,5])
+    const arrInstance = new MyArray(3)
     console.log(arrInstance.value)
+    arrInstance.set(0,1)
+    arrInstance.set(1,2)
+    arrInstance.set(2,3)
     arrInstance.insert(2,777)
     // arrInstance.delete(0)
     // arrInstance.delete(3)

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class MyArray {
+      #arraySize
+      #arrContainer
+      #array
+      constructor (arr) {
+        this.#array = Array.from(arr)
+        this.#arraySize = arr.length // 数组容器
+        this.length = arr.length // 对外暴露数组长度
+      }
+
+      get value () { // 获取数组值（不应直接获取实例后的返回值）
+        let arr = []
+        for (let index = 0; index < this.length; index++) {
+          arr[index] = this.#array[index]
+        }
+        return arr
+      }
+
+      insert (idx, val) {
+        // 数组
+        if (idx < 0) {
+          throw Error('超限')
+        }
+        // const arrLen = this.#array.length
+        // if (idx >= arraySize) {
+          
+        // }
+        for (let index = this.length-1; index >= idx; index--) {
+          this.#array[index+1] = this.#array[index] // 从下标开始依次向右位移
+        }
+        this.#array[idx] = val
+        this.length++
+      }
+
+      delete (idx) {
+        if (idx >= this.length) {
+          throw Error('超出数组范围')
+        }
+        const delItem = this.#array[idx]
+        for (let index = idx; index < this.length-1; index++) {
+          this.#array[index] = this.#array[index+1];
+        }
+        // this.#array.pop()
+        this.length--
+        return delItem
+      }
+
+    }
+
+    const arrInstance = new MyArray([1,2,3,4,5])
+    console.log(arrInstance.value)
+    arrInstance.insert(2,777)
+    // arrInstance.delete(0)
+    // arrInstance.delete(3)
+    console.log(arrInstance.value)
+    console.log(arrInstance.length)
+  </script>
+</body>
+</html>
